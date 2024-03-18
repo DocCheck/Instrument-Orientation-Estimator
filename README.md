@@ -3,7 +3,7 @@ For picking objects from a surface by a robotic gripper not only the location of
 In this project, we have trained a model to estimate the orientation of the surgical instruments. The model architecture is based on the modified [AlexNet model](https://papers.nips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf).
 Our work is inspired by [RotNet](https://github.com/ZJCV/RotNet) but with some major changes in the model and augmentation methods. We have trained the model on our custom surgical instrument dataset including 12 different classes. 
 
-Our trained model is trained to estimate the rotation angle of the surgical instruments in the range of 0-357 degrees with 1 degree precision. 358 and 359 degrees are not considered due to the fact that they are close to 360/0 degrees. It can bring confusion to the model in the training procedure especially that the dataset is manually aligned.
+Our model is trained to estimate the rotation angle of the surgical instruments in the range of 0-357 degrees with 1 degree precision. 358 and 359 degrees are not considered due to the fact that they are close to 360/0 degrees. It can bring confusion to the model in the training procedure especially that the dataset is manually aligned.
 
 This repository is part of the [Rona](https://gitlab.intranet.doccheck.ag/rd/Robot-xArm-Development) project.  
 
@@ -28,9 +28,9 @@ make build
 ```
 
 ## Data collection
-We have captured frames from different surgical instruments to train our model. We refer to our repository on [Rona surgical instrument detector](https://github.com/ZJCV/RotNet) on how to capture the frames.
+We have captured frames from different surgical instruments to train our model. We refer to our repository on [Rona surgical instrument detector](https://github.com/DocCheck/Surgical-Instrument-Detector/) on how to capture the frames.
 
-We randomly selected 12 different surgical instruments from the [Rona Raw dataset with annotations](https://huggingface.co/DocCheck/Rona_captured_dataset_single_multi.zip) to prepare our training/testing dataset. To increase the diversity of the dataset, we chose different frames with various features like side lighting. 
+We randomly selected 12 different surgical instruments from the [Rona Raw dataset with annotations](https://huggingface.co/DocCheck/medical-instrument-detection) to prepare our training/testing dataset. To increase the diversity of the dataset, we chose different frames with various features like side lighting. 
 
 Then, we rotated the frames in a way that all the instruments are laid in the same orientation with roughly zero degrees. One can use any image processing software/tool like in our case GNU Image Manipulation Program (GIMP) to rotate the frames.
 
@@ -80,7 +80,7 @@ Here is an illustration of the generated samples from the raw frame.
 
 Our raw dataset is published on the [Huggingface](https://huggingface.co/DocCheck) platform.
 
-[Rona orientation estimator dataset](https://huggingface.co/DocCheck/Rona_dataset_test.zip)
+[Rona orientation estimator dataset](https://huggingface.co/DocCheck/medical-instrument-orientation-estimation)
 
 # Model architecture
 We have modified the AlexNet model to better estimate the rotation angle of the surgical instruments. 
@@ -95,7 +95,7 @@ To keep the model robust to the brightness and color perturbation, we have added
 # Train
 We published our trained model on the [Huggingface](https://huggingface.co/DocCheck) platform.
 
-[Rona surgical instrument orientation estimator model](https://huggingface.co/DocCheck/model_ori_est.zip) 
+[Rona surgical instrument orientation estimator model](https://huggingface.co/DocCheck/medical-instrument-orientation-estimation) 
 
 To train the model, you can run the following command inside the docker container with default settings.
 ``` 
@@ -103,7 +103,7 @@ make train-image
 ```
 or alternatively to change the configurations,
 ``` 
-python3 -m main --input-data "data/dataset/Orig_OPBesteck_dataset_rot_est_all/" --model-path "data/models/model_default/model_ori_est.pt" --n-class 357 --epochs 1000 train-model
+python3 -m main --input-data "data/dataset/Orig_OPBesteck_dataset_rot_est_all/" --model-path "data/models/model_default/Rona_ori_est_model.pt" --n-class 357 --epochs 1000 train-model
 ```
 
 | <img alt="loss curve" width=500 height=300 src="./images/train_val_loss.jpg" title="loss curve"/> |
@@ -118,7 +118,7 @@ make predict-image
 ```
 or alternatively,
 ``` 
-python3 -m main --input-data "data/dataset/Orig_OPBesteck_dataset_rot_est_all/" --model-path "data/models/model_default/model_ori_est.pt" --diff-t 3 predict-model
+python3 -m main --input-data "data/dataset/Rona_dataset_ori_est_test/single/" --model-path "data/models/model_default/Rona_ori_est_model.pt" --diff-t 3 predict-model
 ```
 As a metric to evaluate our model, We considered a precise prediction if the difference between the predicted angle and the ground truth is less than 3 degrees.
 We have reached a precision rate of around 97.0 % on the validation set which is a good result for our model.
@@ -139,7 +139,7 @@ The last number shows the predicted angle in degrees.
 # How To Get Involved
 Do you want to support the development? We are always looking for new contributors and feedback.
 ### Bugs and issues
-If you found an issue or have a feature request, please open an issue on the [issue tracker](https://gitlab.intranet.doccheck.ag/rd/Robot-xArm-Development/issues)
+If you found an issue or have a feature request, please open an issue on the issue tracker.
 
 ### Code contribution
 If you want to contribute to the code by implementing new features or port the system to a different robotic arm, feel free to contribute to this project and the related repositories.
