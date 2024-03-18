@@ -5,7 +5,7 @@ Our work is inspired by [RotNet](https://github.com/ZJCV/RotNet) but with some m
 
 Our model is trained to estimate the rotation angle of the surgical instruments in the range of 0-357 degrees with 1 degree precision. 358 and 359 degrees are not considered due to the fact that they are close to 360/0 degrees. It can bring confusion to the model in the training procedure especially that the dataset is manually aligned.
 
-This repository is part of the [Rona](https://gitlab.intranet.doccheck.ag/rd/Robot-xArm-Development) project.  
+This repository is part of the [Rona](https://github.com/DocCheck/Rona) project.  
 
 ![angle_estimator_inference.jpg](images/angle_estimator_inference.jpg)
 
@@ -16,7 +16,7 @@ Germany, but also around the world. Rona's development is dedicated to create an
 software upgrade for surgery procedures and interventions where an additional hand is required, but a human support
 might not be available.
 
-The main GitHub repository for the Rona project: https://gitlab.intranet.doccheck.ag/rd/Robot-xArm-Development \
+The main GitHub repository for the Rona project: https://github.com/DocCheck/Rona\
 For further information visit also: https://more.doccheck.com/en/rona/ 
 [![Rona in Action](images/rona_action.jpg)](https://more.doccheck.com/en/rona/)
 
